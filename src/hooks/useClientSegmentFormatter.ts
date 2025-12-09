@@ -1,0 +1,50 @@
+import type { ClientSegments, Segment, StatData } from "../types";
+
+const useClientSegmentFormatter = () => {
+    const getStats = (clientSegments: ClientSegments | null) => {
+        if (!clientSegments) return [];
+        const { 'One-time User': totalUniqueUsers } = clientSegments;
+        const stats: StatData[] = [
+            { icon: '👥', label: 'Total Unique Users', value: totalUniqueUsers?.length || 0 },
+            { icon: '📊', label: 'Total Segments', value: '22' },
+            { icon: '💎', label: 'High Value Users', value: '1824' },
+        ];
+        return stats;
+    }
+
+    const getSegmentDetails = (clientSegments: ClientSegments | null) => {
+        if (!clientSegments) return [];
+        const totalUniqueUsers = clientSegments['One-time User'];
+        const totalUsers = totalUniqueUsers.length || 1;
+        const superLoyalUsers = clientSegments["Loyal User"].map(user => ({ name: user, badge: 'Top', badgeColor: 'bg-green-100 text-green-800' }));
+        const highPerformers = clientSegments["High Performer"].map((user, index) => ({
+            name: user,
+            badge: `${index + 1}${['st', 'nd', 'rd'][index] || 'th'}`,
+            badgeColor: 'bg-blue-100 text-blue-800'
+        }));
+        const segments: Segment[] = [
+            {
+                icon: '👑',
+                title: 'Super Loyal User',
+                description: 'Top tier users with exceptional loyalty and engagement',
+                percentage: +((superLoyalUsers.length / totalUsers) * 100).toFixed(2),
+                gradient: 'bg-gradient-to-r from-orange-500 to-orange-400',
+                users: superLoyalUsers,
+            },
+            {
+                icon: '🏆',
+                title: 'High Performer',
+                description: 'Users who consistently perform well in contests',
+                percentage: +((highPerformers.length / totalUsers) * 100).toFixed(2),
+                gradient: 'bg-gradient-to-r from-purple-500 to-purple-400',
+                users: highPerformers,
+            },
+        ];
+
+        return segments;
+    }
+
+    return { getStats, getSegmentDetails };
+}
+
+export default useClientSegmentFormatter;
