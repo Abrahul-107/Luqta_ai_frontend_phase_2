@@ -1,35 +1,27 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useHttp } from "./useHttp";
 
 export const useLuqtaAI = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const token = "9dX$44A[~K10";
-    const askAI = async (query: string): Promise<string | null> => {
+    const { baseUrl, httpPost } = useHttp();
+
+    const askAI = useCallback(async (query: string): Promise<string | null> => {
         try {
             setLoading(true);
             setError(null);
-            console.log(token);
-
-
-            const res = await fetch("https://ai.luqta.io/api/ask_to_bot", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,   // ⭐ IMPORTANT
-                },
-                body: JSON.stringify({ user_query: query }),
-            });
-
-            const data = await res.json();
-            return data?.response || null;
+            const result = await httpPost<{ response: string }>(
+                `${baseUrl}ask_to_bot`,
+                { user_query: query }
+            );
+            return result?.response || null;
         } catch (err) {
             setError("Could not connect to AI service.");
             return null;
         } finally {
             setLoading(false);
         }
-    };
+    }, [httpPost, baseUrl]);
 
     return { askAI, loading, error };
 };
-export default useLuqtaAI;

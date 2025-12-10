@@ -1,6 +1,7 @@
 import type { ChatMessage } from "../../../types";
 import LoadingIndicator from "./LoadingIndicator";
 import MessageBubble from "./MessageBubble";
+import TypingIndicator from "./TypingIndicator";
 
 interface ChatMessagesProps {
   messages: ChatMessage[];
@@ -18,7 +19,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       {messages.map((message) => (
         <MessageBubble key={message.id} message={message} />
       ))}
-      {loading && <LoadingIndicator />}
+      {loading && <TypingIndicator />}
     </div>
   );
 };

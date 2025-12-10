@@ -1,29 +1,34 @@
+import { Loader } from "lucide-react";
+import Card from "../../shared/Card";
+
 interface MetricCardProps {
-  title: string;
-  value: string;
-  change?: string;
-  changeType?: "positive" | "negative";
+  icon: string;
+  label: string;
+  value: number | string;
+  loading?: boolean;
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({
-  title,
+  icon,
+  label,
   value,
-  change,
-  changeType,
+  loading,
 }) => (
-  <div className="bg-gray-50 p-5 rounded-xl">
-    <h4 className="text-sm text-gray-600 mb-2">{title}</h4>
-    <div className="text-3xl font-bold text-gray-900">{value}</div>
-    {change && (
-      <div
-        className={`text-xs mt-1 ${
-          changeType === "positive" ? "text-green-600" : "text-red-600"
-        }`}
-      >
-        {change}
+  <Card>
+    <div className="h-30 flex flex-col justify-between">
+      <div className="text-sm text-gray-600 mb-2 relative flex items-between justify-start gap-1">
+        {label}
+        <span className="absolute top-0 right-0">{icon}</span>
       </div>
-    )}
-  </div>
+      <div className="text-4xl font-bold text-gray-900">
+        {loading ? (
+          <Loader className="animate-spin" />
+        ) : (
+          (+value).toLocaleString()
+        )}
+      </div>
+    </div>
+  </Card>
 );
 
 export default MetricCard;

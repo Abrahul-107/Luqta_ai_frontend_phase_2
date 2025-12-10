@@ -1,4 +1,4 @@
-import { ChevronsRight } from "lucide-react";
+import { ChevronsRight, PanelTopClose, PanelTopOpen } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "../../../types";
 import { useLuqtaAI } from "../../../hooks/useLuqtaAI";
@@ -17,13 +17,22 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
   const [inputMessage, setInputMessage] = useState<string>("");
   const [isMinimized, setIsMinimized] = useState<boolean>(true);
   const [showPicker, setShowPicker] = useState(false);
+  const [showActions, setShowActions] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const onCloseDrawer = () => {
+    setIsMinimized(true);
+    setShowPicker(false);
+    onClose();
+  };
 
   const { askAI, loading } = useLuqtaAI();
 
   useEffect(() => {
     scrollToBottom();
+    setShowActions(messages.length === 0);
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -72,12 +81,12 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
     <>
       {/* Backdrop with blur */}
       <div
-        className={`fixed bg-transparent inset-0 bg-black transition-opacity duration-300 z-40 ${
+        className={`fixed bg-transparent cursor-pointer inset-0 bg-black transition-opacity duration-300 z-40 ${
           isOpen
             ? "bg-opacity-50 backdrop-blur-sm"
             : "bg-opacity-0 pointer-events-none"
         }`}
-        onClick={onClose}
+        onClick={onCloseDrawer}
       ></div>
 
       {/* Drawer */}
@@ -91,12 +100,12 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
       >
         {/* Drawer Close Button */}
         <button
-          onClick={isMinimized ? onClose : () => setIsMinimized(true)}
-          className="absolute left-3 top-2 -ml-3 z-[60] bg-white text-gray-700
+          onClick={onCloseDrawer}
+          className="absolute left-3 top-4 -ml-3 z-[60] bg-white text-gray-700
              hover:bg-gray-100 p-1 rounded-r shadow cursor-pointer
              transition"
         >
-          <ChevronsRight size={20} />
+          <ChevronsRight size={16} />
         </button>
 
         <ChatHeader
@@ -104,9 +113,25 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
           onToggleMinimize={() => setIsMinimized((prev) => !prev)}
         />
 
+        {messages.length > 0 && (
+          <button
+            onClick={() => setShowActions((prev) => !prev)}
+            title="Quick Actions"
+            className="absolute right-4 top-31 -mr-3 z-[60] bg-white text-gray-700
+             hover:bg-gray-100 p-1 shadow rounded-t cursor-pointer
+             transition"
+          >
+            {showActions ? (
+              <PanelTopOpen size={16} />
+            ) : (
+              <PanelTopClose size={16} />
+            )}
+          </button>
+        )}
+
         <QuickActions
           actions={quickActions}
-          showActions={!messages.length}
+          showActions={showActions}
           onActionClick={(label) => setInputMessage(label)}
         />
 

@@ -23,10 +23,13 @@ const UserSegmentsTab: React.FC = () => {
           title="User Segments"
           subtitle="User Insights & Predictions"
         />
-        <StatsGrid stats={loading ? stats : getStats(data)} loading={loading} />
+        <StatsGrid
+          stats={loading || error ? stats : getStats(data)}
+          loading={loading}
+        />
       </div>
       <SegmentsGrid
-        segments={loading ? segments : getSegmentDetails(data)}
+        segments={loading || error ? segments : getSegmentDetails(data)}
         loading={loading}
       />
     </div>

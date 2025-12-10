@@ -67,3 +67,67 @@ export interface ClientSegments {
     "One-time User": string[];
     "Super Loyal User": string[];
 }
+
+export interface KeyMetrics {
+    views: number;
+    joins: number;
+    dropoff_rate: number;
+    engagement_score: number;
+    expected_revenue: number;
+    confidence: string;
+}
+
+export interface ScenarioComparison {
+    best_option: string;
+    reason: string;
+}
+
+export interface WhatIfSimulationMetrics {
+    views: number;
+    joins: number;
+    dropoff_rate: number;
+    engagement_score: number;
+    expected_revenue: number;
+    confidence: string;
+}
+
+export interface WhatIfSimulation {
+    scenario: string;
+    predicted_metrics: WhatIfSimulationMetrics;
+    notes: string;
+}
+
+export interface ActionableSuggestion {
+    action: string;
+    expected_impact: string;
+    priority: string;
+    confidence: string;
+}
+
+export interface DecisionDataBack {
+    client_actionable_suggestions: ActionableSuggestion[];
+}
+
+export interface Summary {
+    key_metrics: KeyMetrics;
+    scenario_comparison: ScenarioComparison;
+    risks: string[];
+    recommendations: string[];
+}
+
+export interface PredictiveEngagement {
+    summary: Summary;
+    what_if_simulations: WhatIfSimulation[];
+    decision_data_back: DecisionDataBack;
+}
+
+export interface EngagementPredictionResponse {
+    engagement_prediction: {
+        predictive_engagement: PredictiveEngagement;
+    };
+}
+
+export interface PredictiveEngagementRequest {
+    client_id?: string;
+    client_name: string;
+}

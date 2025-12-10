@@ -13,7 +13,7 @@ function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState<boolean>(false);
   return (
     <>
-      <div className="bg-white relative">
+      <div className="bg-gray-100 overflow-x-hidden relative">
         {/* <HamburgerButton
           isOpen={sidebarOpen}
           onClick={() => setSidebarOpen(!sidebarOpen)}

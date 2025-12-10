@@ -11,10 +11,13 @@ const QuickActions: React.FC<QuickActionsProps> = ({
   showActions,
   onActionClick,
 }) => {
-  if (!showActions) return null;
-
   return (
-    <div className="p-4 border-gray-200">
+    <div
+      className={
+        "transition-all p-4 duration-300 overflow-hidden " +
+        (showActions ? "max-h-96 border-gray-b-200" : "max-h-0 py-0 border-0")
+      }
+    >
       <div className="space-y-2">
         {actions.map((action, idx) => (
           <button

@@ -1,23 +1,81 @@
-import type { Prediction } from "../../../types";
-import PredictionCard from "./PredictionCard";
+import React from "react";
+import type { EngagementPredictionResponse } from "../../../types";
+import PotentialRisks from "./PotentialRisks";
+import AIRecommendations from "./AIRecommendations";
+import DetailedScenarioAnalysis from "./DetailedScenarioAnalysis";
+import PredictionChartsGrid from "./PredictionChartsGrid";
 
-interface PredictionSectionProps {
-  title: string;
-  predictions: Prediction[];
+// Generate chart data
+const generateCurrentData = () => {
+  const data = [];
+  for (let i = 0; i <= 30; i++) {
+    data.push({
+      date: `${9}/${25 + i}`,
+      "Joins-70": Math.floor(Math.random() * 20) + 30,
+      "Joins-15000": Math.floor(Math.random() * 30) + 10,
+    });
+  }
+  return data;
+};
+
+const generateFutureData = () => {
+  const data = [];
+  for (let i = 0; i <= 30; i++) {
+    data.push({
+      date: `${9}/${25 + i}`,
+      "Joins-70": Math.floor(Math.random() * 40) + 70,
+      "Joins-15000": Math.floor(Math.random() * 50) + 100,
+    });
+  }
+  return data;
+};
+
+interface PredictionsDashboardProps {
+  data: EngagementPredictionResponse | null;
+  loading?: boolean;
 }
+const PredictionsDashboard: React.FC<PredictionsDashboardProps> = ({
+  data,
+  loading,
+}) => {
+  const currentChartData = generateCurrentData();
+  const futureChartData = generateFutureData();
 
-const PredictionSection: React.FC<PredictionSectionProps> = ({
-  title,
-  predictions,
-}) => (
-  <div>
-    <h3 className="text-base font-semibold mb-4 mt-8">{title}</h3>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-      {predictions.map((prediction, idx) => (
-        <PredictionCard key={idx} {...prediction} />
-      ))}
+  return (
+    // <div className="min-h-screen bg-gray-50 p-8">
+    <div className="max-w-7xl mx-auto space-y-8 z-[50]">
+      {/* Charts Grid */}
+      <PredictionChartsGrid
+        currentData={currentChartData}
+        predictedData={futureChartData}
+        loading={loading}
+      />
+      {/* Detailed Scenario Analysis */}
+      <DetailedScenarioAnalysis
+        what_if_simulations={
+          data?.engagement_prediction.predictive_engagement
+            .what_if_simulations || []
+        }
+        loading={loading}
+      />
+      {/* Potential Risks */}
+      <PotentialRisks
+        risks={
+          data?.engagement_prediction.predictive_engagement.summary.risks || []
+        }
+        loading={loading}
+      />
+      {/* AI Recommendations */}
+      <AIRecommendations
+        recommendations={
+          data?.engagement_prediction.predictive_engagement.summary
+            .recommendations || []
+        }
+        loading={loading}
+      />
     </div>
-  </div>
-);
+    // </div>
+  );
+};
 
-export default PredictionSection;
+export default PredictionsDashboard;
