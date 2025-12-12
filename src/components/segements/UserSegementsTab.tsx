@@ -6,16 +6,19 @@ import SegmentsGrid from "./SegementsGrid";
 import StatsGrid from "./StartGrid";
 import { useClientSegments } from "../../hooks/useClientSegments";
 import useClientSegmentFormatter from "../../hooks/useClientSegmentFormatter";
+import { useQueryClient } from "../../hooks/useQueryClient";
 
 const UserSegmentsTab: React.FC = () => {
   const { data, loading, error, fetchSegments } = useClientSegments();
   const { getStats, getSegmentDetails } = useClientSegmentFormatter();
+  const { clientName } = useQueryClient({ client_name: "Luqta Admin" });
+
   useEffect(() => {
     const loadSegments = async () => {
-      await fetchSegments("Luqta Admin");
+      await fetchSegments(clientName);
     };
     loadSegments();
-  }, [fetchSegments]);
+  }, [, clientName]);
   return (
     <div>
       <div className="bg-white rounded-2xl p-5 mb-5">

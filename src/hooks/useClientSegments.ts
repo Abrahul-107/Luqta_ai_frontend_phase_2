@@ -28,7 +28,7 @@ export const useClientSegments = (): UseClientSegmentsResult => {
         } finally {
             setLoading(false);
         }
-    }, [baseUrl, httpPost]);
+    }, [baseUrl]);
 
     return { data, loading, error, fetchSegments };
 };

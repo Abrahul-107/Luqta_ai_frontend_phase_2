@@ -26,9 +26,16 @@ const PotentialRisks: React.FC<PotentialRisksProps> = ({ risks, loading }) => {
           ) : (
             <div
               key={idx}
-              className="flex items-start gap-3 p-3 bg-red-50 rounded-lg"
+              className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg"
             >
-              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <div className="w-12 h-12 rounded-full overflow-hidden">
+                <img
+                  src="src/assets/images/potential_risks.png"
+                  alt="Potential Risks"
+                  className="w-full h-full object-cover size[48]"
+                />
+                {/* <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" /> */}
+              </div>
               <span className="text-sm text-gray-700">{risk}</span>
             </div>
           )

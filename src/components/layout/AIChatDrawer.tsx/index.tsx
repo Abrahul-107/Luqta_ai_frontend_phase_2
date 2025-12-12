@@ -7,6 +7,7 @@ import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import QuickActions from "./QuickActions";
 import { quickActions } from "../../../data/quickActions";
+import { useSearchParams } from "react-router-dom";
 
 interface AIChatDrawerProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
   const [showPicker, setShowPicker] = useState(false);
   const [showActions, setShowActions] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [searchParams] = useSearchParams();
+  const client_name = searchParams.get("client_name");
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -109,25 +112,13 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
         </button>
 
         <ChatHeader
+          name={client_name || undefined}
           isMinimized={isMinimized}
+          showActions={showActions}
+          showActionToggle={messages.length > 0}
+          onToggleShowActions={() => setShowActions((prev) => !prev)}
           onToggleMinimize={() => setIsMinimized((prev) => !prev)}
         />
-
-        {messages.length > 0 && (
-          <button
-            onClick={() => setShowActions((prev) => !prev)}
-            title="Quick Actions"
-            className="absolute right-4 top-31 -mr-3 z-[60] bg-white text-gray-700
-             hover:bg-gray-100 p-1 shadow rounded-t cursor-pointer
-             transition"
-          >
-            {showActions ? (
-              <PanelTopOpen size={16} />
-            ) : (
-              <PanelTopClose size={16} />
-            )}
-          </button>
-        )}
 
         <QuickActions
           actions={quickActions}

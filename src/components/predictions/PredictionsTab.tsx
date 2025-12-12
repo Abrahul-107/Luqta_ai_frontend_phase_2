@@ -5,17 +5,21 @@ import usePredictiveEngagementFormatter from "../../hooks/usePredictiveEngagemen
 import SectionHeader from "../common/SectionHeader";
 import MetricCardsGrid from "./MetricCardsGrid";
 import PredictionSection from "./PredictionSection";
+import { useQueryClient } from "../../hooks/useQueryClient";
 
 const PredictionsTab: React.FC = () => {
   const { data, loading, error, fetchPrediction } = usePredictiveEngagement();
   const { getPredictions } = usePredictiveEngagementFormatter();
+  const { clientName, clientId } = useQueryClient({
+    client_name: "Hind Yassin",
+  });
 
   useEffect(() => {
     const loadPrediction = async () => {
-      await fetchPrediction({ client_name: "Luqta Admin" });
+      await fetchPrediction({ client_name: clientName, client_id: clientId });
     };
     loadPrediction();
-  }, [fetchPrediction]);
+  }, [fetchPrediction, clientName]);
   return (
     <div>
       <div className="bg-white rounded-2xl p-5 mb-5">

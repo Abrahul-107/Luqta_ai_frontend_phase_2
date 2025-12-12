@@ -5,9 +5,9 @@ const useClientSegmentFormatter = () => {
         if (!clientSegments) return [];
         const { 'One-time User': totalUniqueUsers } = clientSegments;
         const stats: StatData[] = [
-            { icon: '👥', label: 'Total Unique Users', value: totalUniqueUsers?.length || 0 },
-            { icon: '📊', label: 'Total Segments', value: '22' },
-            { icon: '💎', label: 'High Value Users', value: '1824' },
+            { icon: '👥', icon_url: 'src/assets/icons/group_add.svg', label: 'Total Unique Users', value: totalUniqueUsers?.length || 0 },
+            { icon: '📊', icon_url: 'src/assets/icons/arrow_outward_up.svg', label: 'Total Segments', value: '22' },
+            { icon: '💎', icon_url: 'src/assets/icons/workspace_premium.svg', label: 'High Value Users', value: '1824' },
         ];
         return stats;
     }
@@ -25,6 +25,7 @@ const useClientSegmentFormatter = () => {
         const segments: Segment[] = [
             {
                 icon: '👑',
+                icon_url: 'src/assets/images/super_loyal_user.png',
                 title: 'Super Loyal User',
                 description: 'Top tier users with exceptional loyalty and engagement',
                 percentage: +((superLoyalUsers?.length || 0) / totalUsers * 100).toFixed(2),
@@ -33,6 +34,7 @@ const useClientSegmentFormatter = () => {
             },
             {
                 icon: '🏆',
+                icon_url: 'src/assets/images/high_performer.png',
                 title: 'High Performer',
                 description: 'Users who consistently perform well in contests',
                 percentage: +((highPerformers?.length || 0) / totalUsers * 100).toFixed(2),

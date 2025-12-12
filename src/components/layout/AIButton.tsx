@@ -4,9 +4,13 @@ interface AIButtonProps {
 const AIButton: React.FC<AIButtonProps> = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="fixed bottom-8 right-8 cursor-pointer bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition flex items-center gap-2"
+    className="fixed flex items-center justify-between bottom-8 right-8 cursor-pointer bg-[#611BFB] text-white pl-2 pr-4 py-1 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition flex items-center"
   >
-    <span>✨</span>
+    <img
+      className="size-12 p-0 mt-1  rounded-full"
+      src="src/assets/icons/chat_icon.png"
+      alt=""
+    />
     <span>LUQTA AI</span>
   </button>
 );

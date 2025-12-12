@@ -1,5 +1,4 @@
 import type { ChatMessage } from "../../../types";
-import LoadingIndicator from "./LoadingIndicator";
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
 

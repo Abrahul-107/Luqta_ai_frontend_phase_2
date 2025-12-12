@@ -8,6 +8,7 @@ export interface NavItem {
 
 export interface StatData {
     icon: string;
+    icon_url?: string;
     label: string;
     value: number | string;
 }
@@ -20,6 +21,7 @@ export interface User {
 
 export interface Segment {
     icon: string;
+    icon_url?: string;
     title: string;
     description: string;
     percentage: number;
@@ -128,6 +130,6 @@ export interface EngagementPredictionResponse {
 }
 
 export interface PredictiveEngagementRequest {
-    client_id?: string;
-    client_name: string;
+    client_id?: string | number | null;
+    client_name?: string | null;
 }

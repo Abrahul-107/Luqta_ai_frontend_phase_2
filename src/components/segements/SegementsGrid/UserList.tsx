@@ -21,7 +21,7 @@ const UserList: React.FC<UserListProps> = ({ users, loading }) => (
       ))
     ) : (
       <>
-        {users.map((user, idx) => (
+        {users?.map((user, idx) => (
           <UserListItem key={idx} {...user} />
         ))}
       </>

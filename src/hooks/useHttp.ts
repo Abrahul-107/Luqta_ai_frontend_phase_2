@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 
-interface HttpOptions {
+interface HttpOptions<T = unknown> {
     params?: Record<string, string | number>;
-    body?: unknown;
+    body?: T;
+    method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }
 
 export const useHttp = () => {
@@ -23,91 +24,46 @@ export const useHttp = () => {
                 finalUrl.searchParams.append(key, String(value));
             });
         }
-
         return finalUrl.toString();
     };
 
-    const httpGet = useCallback(
-        async <T>(url: string, options?: HttpOptions): Promise<T> => {
-            const response = await fetch(buildUrl(url, options?.params), {
-                method: "GET",
+    /** COMMON REQUEST HANDLER */
+    const request = useCallback(
+        async <T>(url: string, options: HttpOptions = {}): Promise<T> => {
+            const { method = "GET", params, body } = options;
+
+            const response = await fetch(buildUrl(url, params), {
+                method,
                 headers: getHeaders(),
+                body: body ? JSON.stringify(body) : undefined,
             });
 
-            if (!response.ok)
-                throw new Error(`GET failed: ${response.status} ${response.statusText}`);
-
-            return response.json() as Promise<T>;
-        },
-        [token]
-    );
-
-    const httpPost = useCallback(
-        async <T>(url: string, body?: unknown): Promise<T> => {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: getHeaders(),
-                body: JSON.stringify(body),
-            });
-
-            if (!response.ok)
-                throw new Error(`POST failed: ${response.status} ${response.statusText}`);
-
-            return response.json() as Promise<T>;
-        },
-        [token]
-    );
-
-    const httpPut = useCallback(
-        async <T>(url: string, body?: unknown): Promise<T> => {
-            const response = await fetch(url, {
-                method: "PUT",
-                headers: getHeaders(),
-                body: JSON.stringify(body),
-            });
-
-            if (!response.ok)
-                throw new Error(`PUT failed: ${response.status} ${response.statusText}`);
-
-            return response.json() as Promise<T>;
-        },
-        [token]
-    );
-
-    const httpPatch = useCallback(
-        async <T>(url: string, body?: unknown): Promise<T> => {
-            const response = await fetch(url, {
-                method: "PATCH",
-                headers: getHeaders(),
-                body: JSON.stringify(body),
-            });
-
-            if (!response.ok)
+            if (!response.ok) {
                 throw new Error(
-                    `PATCH failed: ${response.status} ${response.statusText}`
+                    `${method} failed: ${response.status} ${response.statusText}`
                 );
+            }
 
             return response.json() as Promise<T>;
         },
         [token]
     );
 
-    const httpDelete = useCallback(
-        async <T>(url: string): Promise<T> => {
-            const response = await fetch(url, {
-                method: "DELETE",
-                headers: getHeaders(),
-            });
+    /** PUBLIC METHODS — THIN WRAPPERS */
+    const httpGet = <T>(url: string, params?: HttpOptions["params"]) =>
+        request<T>(url, { method: "GET", params });
 
-            if (!response.ok)
-                throw new Error(
-                    `DELETE failed: ${response.status} ${response.statusText}`
-                );
+    const httpPost = <T, U = unknown>(url: string, body?: U) =>
+        request<T>(url, { method: "POST", body });
 
-            return response.json() as Promise<T>;
-        },
-        [token]
-    );
+    const httpPut = <T, U = unknown>(url: string, body?: U) =>
+        request<T>(url, { method: "PUT", body });
+
+    const httpPatch = <T, U = unknown>(url: string, body?: U) =>
+        request<T>(url, { method: "PATCH", body });
+
+    const httpDelete = <T>(url: string) =>
+        request<T>(url, { method: "DELETE" });
 
     return {
         baseUrl,

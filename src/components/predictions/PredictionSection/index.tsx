@@ -40,7 +40,15 @@ const PredictionsDashboard: React.FC<PredictionsDashboardProps> = ({
 }) => {
   const currentChartData = generateCurrentData();
   const futureChartData = generateFutureData();
-
+  const maxSimulation =
+    data?.engagement_prediction.predictive_engagement.what_if_simulations.reduce(
+      (prev, curr) => {
+        return curr.predicted_metrics.expected_revenue >
+          prev.predicted_metrics.expected_revenue
+          ? curr
+          : prev;
+      }
+    );
   return (
     // <div className="min-h-screen bg-gray-50 p-8">
     <div className="max-w-7xl mx-auto space-y-8 z-[50]">
@@ -48,6 +56,7 @@ const PredictionsDashboard: React.FC<PredictionsDashboardProps> = ({
       <PredictionChartsGrid
         currentData={currentChartData}
         predictedData={futureChartData}
+        simulation={maxSimulation || ({} as any)}
         loading={loading}
       />
       {/* Detailed Scenario Analysis */}

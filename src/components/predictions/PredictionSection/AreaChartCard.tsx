@@ -6,6 +6,7 @@ import {
   Area,
   AreaChart,
 } from "recharts";
+import type { WhatIfSimulation, WhatIfSimulationMetrics } from "../../../types";
 
 interface AreaChartCardProps {
   title: string;
@@ -13,11 +14,7 @@ interface AreaChartCardProps {
   data: any[];
   color1: string;
   color2: string;
-  stats: {
-    revenue: number;
-    joins: number;
-    engagement: string;
-  };
+  simulation: WhatIfSimulation;
 }
 
 const AreaChartCard: React.FC<AreaChartCardProps> = ({
@@ -26,7 +23,7 @@ const AreaChartCard: React.FC<AreaChartCardProps> = ({
   data,
   color1,
   color2,
-  stats,
+  simulation,
 }) => (
   <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
     <div className="mb-4">
@@ -97,22 +94,24 @@ const AreaChartCard: React.FC<AreaChartCardProps> = ({
       <h4 className="text-xs font-semibold text-gray-700 mb-2">
         {title === "Now" ? "Current Statistics" : "Upcoming Statistics"}
       </h4>
-      <p className="text-xs text-gray-600 mb-3">
-        Highest expected revenue and ROI
-      </p>
+      <p className="text-xs text-gray-600 mb-3">{simulation?.notes}</p>
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Expected Revenue:</span>
-          <span className="font-semibold text-gray-900">{stats.revenue}</span>
+          <span className="font-semibold text-gray-900">
+            $ {simulation?.predicted_metrics?.expected_revenue}
+          </span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Predicted Joins:</span>
-          <span className="font-semibold text-gray-900">{stats.joins}</span>
+          <span className="font-semibold text-gray-900">
+            {simulation?.predicted_metrics?.joins}
+          </span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Engagement Score:</span>
           <span className="font-semibold text-gray-900">
-            {stats.engagement}
+            {simulation?.predicted_metrics?.engagement_score}%
           </span>
         </div>
       </div>

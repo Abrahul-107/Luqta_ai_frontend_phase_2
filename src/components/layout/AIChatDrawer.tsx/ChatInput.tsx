@@ -1,6 +1,6 @@
 import { Smile, Send } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
-import { use, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface ChatInputProps {
   inputMessage: string;
@@ -48,12 +48,16 @@ const ChatInput: React.FC<ChatInputProps> = ({
             <EmojiPicker onEmojiClick={onEmojiClick} />
           </div>
         )}
-        <button className="text-gray-400 hover:text-gray-600 transition cursor-pointer">
-          <Smile size={20} onClick={onTogglePicker} />
+        <button
+          className="text-gray-400 hover:text-gray-600 transition cursor-pointer"
+          onMouseDown={onTogglePicker}
+          onBlur={() => console.log("Blured")}
+        >
+          <Smile size={20} className="text-[#00bfa6]" />
         </button>
         <button
           onClick={onSendMessage}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full p-2 hover:shadow-lg transition"
+          className="bg-gray-200 text-gray-600 rounded-full p-2 hover:shadow-lg transition"
         >
           <Send size={16} className="cursor-pointer" />
         </button>
