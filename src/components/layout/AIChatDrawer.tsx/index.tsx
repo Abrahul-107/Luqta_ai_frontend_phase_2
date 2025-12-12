@@ -1,4 +1,4 @@
-import { ChevronsRight, PanelTopClose, PanelTopOpen } from "lucide-react";
+import { ChevronsRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "../../../types";
 import { useLuqtaAI } from "../../../hooks/useLuqtaAI";
@@ -58,6 +58,7 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
       type: "ai",
       content: aiReply || "Sorry, I could not process that.",
       timestamp: new Date(),
+      isStreaming: true,
     };
 
     setMessages((prev) => [...prev, newAIMessage]);

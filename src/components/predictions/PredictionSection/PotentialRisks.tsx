@@ -1,5 +1,3 @@
-import { AlertCircle } from "lucide-react";
-
 interface PotentialRisksProps {
   risks: string[];
   loading?: boolean;

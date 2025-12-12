@@ -54,6 +54,7 @@ export interface ChatMessage {
     type: 'user' | 'ai';
     content: string;
     timestamp: Date;
+    isStreaming?: boolean;
 }
 
 export interface QuickAction {

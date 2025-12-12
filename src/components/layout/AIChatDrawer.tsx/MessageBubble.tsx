@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { ChatMessage } from "../../../types";
 
 interface MessageBubbleProps {
@@ -5,6 +6,33 @@ interface MessageBubbleProps {
 }
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
+  const [displayedContent, setDisplayedContent] = useState("");
+  const [isComplete, setIsComplete] = useState(!message.isStreaming);
+
+  useEffect(() => {
+    if (!message.isStreaming) {
+      setDisplayedContent(message.content);
+      setIsComplete(true);
+      return;
+    }
+
+    let currentIndex = 0;
+    const streamInterval = setInterval(() => {
+      if (currentIndex < message.content.length) {
+        setDisplayedContent(message.content.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        setIsComplete(true);
+        clearInterval(streamInterval);
+      }
+    }, 10); // Adjust speed here (lower = faster)
+
+    return () => {
+      clearInterval(streamInterval);
+      message.isStreaming = false;
+    };
+  }, [message.content, message.isStreaming]);
+
   return (
     <div
       className={`flex ${
@@ -18,7 +46,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
             : "bg-gray-100 text-gray-800"
         }`}
       >
-        <p className="text-sm">{message.content}</p>
+        <p className="text-sm whitespace-pre-wrap">
+          {displayedContent}
+          {!isComplete && message.type === "ai" && (
+            <span className="inline-block w-0.5 h-4 bg-gray-800 ml-1 animate-pulse"></span>
+          )}
+        </p>
       </div>
     </div>
   );

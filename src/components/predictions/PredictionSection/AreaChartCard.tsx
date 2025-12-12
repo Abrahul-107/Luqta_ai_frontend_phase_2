@@ -6,7 +6,7 @@ import {
   Area,
   AreaChart,
 } from "recharts";
-import type { WhatIfSimulation, WhatIfSimulationMetrics } from "../../../types";
+import type { WhatIfSimulation } from "../../../types";
 
 interface AreaChartCardProps {
   title: string;

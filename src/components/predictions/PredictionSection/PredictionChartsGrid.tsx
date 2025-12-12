@@ -1,4 +1,4 @@
-import type { WhatIfSimulation, WhatIfSimulationMetrics } from "../../../types";
+import type { WhatIfSimulation } from "../../../types";
 import AreaChartCard from "./AreaChartCard";
 
 interface PredictionChartsGridProps {
