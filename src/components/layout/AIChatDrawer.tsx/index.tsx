@@ -31,6 +31,12 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  };
+
   const { askAI, loading } = useLuqtaAI();
 
   useEffect(() => {
@@ -73,12 +79,6 @@ const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
   const handleEmojiClick = (emojiData: any) => {
     setInputMessage((prev) => prev + emojiData.emoji);
     setShowPicker(false);
-  };
-
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-    }
   };
 
   return (

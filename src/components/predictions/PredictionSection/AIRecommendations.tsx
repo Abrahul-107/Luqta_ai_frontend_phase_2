@@ -20,7 +20,7 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
             loading ? (
               <div
                 className="animate-pulse space-y-4 flex gap-4 justify-between"
-                key={Math.random()}
+                key={idx}
               >
                 <div className="w-8 h-8 rounded-full bg-gray-200"></div>
                 <div className="h-8 bg-gray-200 rounded w-4/4"></div>

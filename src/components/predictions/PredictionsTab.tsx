@@ -19,7 +19,7 @@ const PredictionsTab: React.FC = () => {
       await fetchPrediction({ client_name: clientName, client_id: clientId });
     };
     loadPrediction();
-  }, [fetchPrediction, clientName]);
+  }, [fetchPrediction, clientName, clientId]);
   return (
     <div>
       <div className="bg-white rounded-2xl p-5 mb-5">
