@@ -134,3 +134,10 @@ export interface PredictiveEngagementRequest {
     client_id?: string | number | null;
     client_name?: string | null;
 }
+
+export interface TimeSeriesDataPoint {
+    day: number;
+    date: string;
+    joins: number;
+    displayJoins: string;
+}

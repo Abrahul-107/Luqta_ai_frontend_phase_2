@@ -4,31 +4,7 @@ import PotentialRisks from "./PotentialRisks";
 import AIRecommendations from "./AIRecommendations";
 import DetailedScenarioAnalysis from "./DetailedScenarioAnalysis";
 import PredictionChartsGrid from "./PredictionChartsGrid";
-
-// Generate chart data
-const generateCurrentData = () => {
-  const data = [];
-  for (let i = 0; i <= 30; i++) {
-    data.push({
-      date: `${9}/${25 + i}`,
-      "Joins-70": Math.floor(Math.random() * 20) + 30,
-      "Joins-15000": Math.floor(Math.random() * 30) + 10,
-    });
-  }
-  return data;
-};
-
-const generateFutureData = () => {
-  const data = [];
-  for (let i = 0; i <= 30; i++) {
-    data.push({
-      date: `${9}/${25 + i}`,
-      "Joins-70": Math.floor(Math.random() * 40) + 70,
-      "Joins-15000": Math.floor(Math.random() * 50) + 100,
-    });
-  }
-  return data;
-};
+import usePredictiveEngagementFormatter from "../../../hooks/usePredictiveEngagementFormatter";
 
 interface PredictionsDashboardProps {
   data: EngagementPredictionResponse | null;
@@ -38,25 +14,33 @@ const PredictionsDashboard: React.FC<PredictionsDashboardProps> = ({
   data,
   loading,
 }) => {
-  const currentChartData = generateCurrentData();
-  const futureChartData = generateFutureData();
-  const maxSimulation =
-    data?.engagement_prediction.predictive_engagement.what_if_simulations.reduce(
-      (prev, curr) => {
-        return curr.predicted_metrics.expected_revenue >
-          prev.predicted_metrics.expected_revenue
-          ? curr
-          : prev;
-      }
-    );
+  // Extract data
+  const currentMetrics =
+    data?.engagement_prediction.predictive_engagement.summary.key_metrics;
+  const bestScenario =
+    data?.engagement_prediction.predictive_engagement.what_if_simulations[0];
+
+  const { generateTimeSeriesData } = usePredictiveEngagementFormatter();
+  const currentData = generateTimeSeriesData(
+    currentMetrics?.joins,
+    10,
+    "normal"
+  );
+  const predictedData = generateTimeSeriesData(
+    bestScenario?.predicted_metrics.joins,
+    10,
+    "optimized"
+  );
+
   return (
     // <div className="min-h-screen bg-gray-50 p-8">
     <div className="max-w-7xl mx-auto space-y-8 z-[50]">
       {/* Charts Grid */}
       <PredictionChartsGrid
-        currentData={currentChartData}
-        predictedData={futureChartData}
-        simulation={maxSimulation || ({} as any)}
+        currentData={currentData}
+        predictedData={predictedData}
+        currentMetrics={currentMetrics}
+        bestScenario={bestScenario}
         loading={loading}
       />
       {/* Detailed Scenario Analysis */}

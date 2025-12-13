@@ -5,118 +5,190 @@ import {
   Tooltip,
   Area,
   AreaChart,
+  CartesianGrid,
 } from "recharts";
-import type { WhatIfSimulation } from "../../../types";
+import type {
+  KeyMetrics,
+  TimeSeriesDataPoint,
+  WhatIfSimulationMetrics,
+} from "../../../types";
 
 interface AreaChartCardProps {
   title: string;
   subtitle: string;
-  data: any[];
-  color1: string;
-  color2: string;
-  simulation: WhatIfSimulation;
+  data: TimeSeriesDataPoint[];
+  color: string;
+  accentColor: string;
+  metrics: KeyMetrics | WhatIfSimulationMetrics | undefined;
+  prizeRate: string;
+  isRecommended?: boolean;
 }
 
+// Custom Tooltip Props Interface
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    value?: number;
+    name?: string;
+    dataKey?: string;
+    payload?: TimeSeriesDataPoint;
+  }>;
+  label?: string;
+}
+
+// Custom Tooltip Component
+const CustomTooltip: React.FC<CustomTooltipProps> = (props) => {
+  const { active, payload } = props;
+
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white px-4 py-2 rounded-lg shadow-lg border border-gray-200">
+        <p className="text-sm font-semibold text-gray-900">
+          Joins: {payload[0].value?.toLocaleString()}
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+// Area Chart Card Component
 const AreaChartCard: React.FC<AreaChartCardProps> = ({
   title,
   subtitle,
   data,
-  color1,
-  color2,
-  simulation,
-}) => (
-  <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-    <div className="mb-4">
-      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-      <p className="text-sm text-gray-500">{subtitle}</p>
-    </div>
+  color,
+  accentColor,
+  metrics,
+  prizeRate,
+  isRecommended = false,
+}) => {
+  // Find peak for annotation
+  const peakIndex = Math.floor(data.length * 0.7);
+  const peakValue = data[peakIndex].joins;
 
-    <div className="h-56 mb-4">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data}>
-          <defs>
-            <linearGradient
-              id={`gradient1-${title}`}
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="1"
-            >
-              <stop offset="5%" stopColor={color1} stopOpacity={0.3} />
-              <stop offset="95%" stopColor={color1} stopOpacity={0.1} />
-            </linearGradient>
-            <linearGradient
-              id={`gradient2-${title}`}
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="1"
-            >
-              <stop offset="5%" stopColor={color2} stopOpacity={0.3} />
-              <stop offset="95%" stopColor={color2} stopOpacity={0.1} />
-            </linearGradient>
-          </defs>
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            ticks={[data[0].date, data[data.length - 1].date]}
-          />
-          <YAxis
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => `${value} Joins`}
-          />
-          <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="Joins-70"
-            stroke={color1}
-            fill={`url(#gradient1-${title})`}
-            strokeWidth={2}
-            animationDuration={1000}
-          />
-          <Area
-            type="monotone"
-            dataKey="Joins-15000"
-            stroke={color2}
-            fill={`url(#gradient2-${title})`}
-            strokeWidth={2}
-            animationDuration={1000}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+  return (
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+      <div className="mb-6">
+        <h3 className="text-2xl font-bold text-gray-900 mb-1">{title}</h3>
+        <p className="text-sm text-gray-500">{subtitle}</p>
+        <p
+          className={`text-sm font-semibold mt-2 ${
+            isRecommended ? "text-green-600" : "text-yellow-600"
+          }`}
+        >
+          {isRecommended
+            ? `Increased prize by 80%+`
+            : `Prize rate ${prizeRate}`}
+        </p>
+      </div>
 
-    <div className="bg-gray-50 rounded-lg p-4">
-      <h4 className="text-xs font-semibold text-gray-700 mb-2">
-        {title === "Now" ? "Current Statistics" : "Upcoming Statistics"}
-      </h4>
-      <p className="text-xs text-gray-600 mb-3">{simulation?.notes}</p>
-      <div className="space-y-2">
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Expected Revenue:</span>
-          <span className="font-semibold text-gray-900">
-            $ {simulation?.predicted_metrics?.expected_revenue}
-          </span>
+      <div className="h-64 mb-6 relative">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart
+            data={data}
+            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+          >
+            <defs>
+              <linearGradient
+                id={`gradient-${title}`}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop offset="5%" stopColor={color} stopOpacity={0.4} />
+                <stop offset="95%" stopColor={color} stopOpacity={0.05} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="#f0f0f0"
+              vertical={false}
+            />
+            <XAxis
+              dataKey="date"
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tickLine={false}
+              axisLine={{ stroke: "#e5e7eb" }}
+            />
+            <YAxis
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tickLine={false}
+              axisLine={{ stroke: "#e5e7eb" }}
+              tickFormatter={(value: number) =>
+                value > 1000
+                  ? `${(value / 1000).toFixed(0)}K`
+                  : value.toString()
+              }
+              label={{
+                value: "Joins",
+                angle: -90,
+                position: "insideLeft",
+                style: { fontSize: 12, fill: "#6b7280" },
+              }}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Area
+              type="monotone"
+              dataKey="joins"
+              stroke={color}
+              fill={`url(#gradient-${title})`}
+              strokeWidth={3}
+              animationDuration={1500}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+
+        {/* Annotation */}
+        <div
+          className="absolute bg-white px-3 py-1.5 rounded-lg shadow-md border-2"
+          style={{
+            borderColor: color,
+            top: "20%",
+            right: "15%",
+          }}
+        >
+          <p className="text-xs text-gray-600">
+            Joins: {Math.round(peakValue / 100) * 100}
+          </p>
+          <p className="text-xs font-bold" style={{ color: accentColor }}>
+            Joins: {metrics?.joins.toLocaleString() || "N/A"}
+          </p>
         </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Predicted Joins:</span>
-          <span className="font-semibold text-gray-900">
-            {simulation?.predicted_metrics?.joins}
-          </span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Engagement Score:</span>
-          <span className="font-semibold text-gray-900">
-            {simulation?.predicted_metrics?.engagement_score}%
-          </span>
+      </div>
+
+      <div className="bg-gray-50 rounded-lg p-5">
+        <h4 className="text-sm font-semibold text-gray-700 mb-3">
+          {isRecommended ? "Upcoming Statistics" : "Current Statistics"}
+        </h4>
+        <p className="text-xs text-gray-600 mb-4">
+          {isRecommended
+            ? "Highest expected revenue and ROI"
+            : "Highest expected revenue and ROI"}
+        </p>
+        <div className="space-y-3">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Expected Revenue:</span>
+            <span className="text-lg font-bold text-gray-900">
+              ${metrics?.expected_revenue.toLocaleString() || "N/A"}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Predicted Joins:</span>
+            <span className="text-lg font-bold text-gray-900">
+              {metrics?.joins.toLocaleString() || "N/A"}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Engagement Score:</span>
+            <span className="text-lg font-bold" style={{ color: color }}>
+              {metrics?.engagement_score || (isRecommended ? 50 : 20)}%
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default AreaChartCard;

@@ -1,17 +1,19 @@
-import type { WhatIfSimulation } from "../../../types";
+import type { KeyMetrics, WhatIfSimulation } from "../../../types";
 import AreaChartCard from "./AreaChartCard";
 
 interface PredictionChartsGridProps {
   currentData: any[];
   predictedData: any[];
-  simulation: WhatIfSimulation;
+  currentMetrics: KeyMetrics | undefined;
+  bestScenario: WhatIfSimulation | undefined;
   loading?: boolean;
 }
 
 const PredictionChartsGrid: React.FC<PredictionChartsGridProps> = ({
   currentData,
   predictedData,
-  simulation,
+  currentMetrics,
+  bestScenario,
   loading,
 }) => {
   return (
@@ -29,19 +31,24 @@ const PredictionChartsGrid: React.FC<PredictionChartsGridProps> = ({
         <>
           <AreaChartCard
             title="Now"
-            subtitle="Current metrics | Based on 2025"
+            subtitle="Current Scenario"
             data={currentData}
-            color1="#ef4444"
-            color2="#fca5a5"
-            simulation={{ ...simulation }}
+            color="#ef4444"
+            accentColor="#dc2626"
+            metrics={currentMetrics}
+            prizeRate="20%"
+            isRecommended={false}
           />
+
           <AreaChartCard
             title="In the next 10 Days!"
-            subtitle="Recommended by our science | Increased prize by 25%"
+            subtitle="Recommended Best Scenario"
             data={predictedData}
-            color1="#10b981"
-            color2="#6ee7b7"
-            simulation={{ ...simulation }}
+            color="#10b981"
+            accentColor="#059669"
+            metrics={bestScenario?.predicted_metrics}
+            prizeRate="24%"
+            isRecommended={true}
           />
         </>
       )}
