@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import type { ChatMessage } from "../../../types";
 
 interface MessageBubbleProps {
@@ -9,6 +11,17 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   const [displayedContent, setDisplayedContent] = useState("");
   const [isComplete, setIsComplete] = useState(!message.isStreaming);
 
+  /**
+   * Converts plain text newlines into Markdown-compatible line breaks
+   * - Single \n  → line break
+   * - Double \n\n → paragraph break
+   */
+  const normalizeForMarkdown = (text: string) => {
+    return text
+      .replace(/\*\* /g, "**\n") // Replace "* " with "*\n"
+      .replace(/\r\n|\n/g, "\n\n"); // Replace "** " with "**\n"
+  };
+
   useEffect(() => {
     if (!message.isStreaming) {
       setDisplayedContent(message.content);
@@ -17,19 +30,19 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
     }
 
     let currentIndex = 0;
-    const streamInterval = setInterval(() => {
+    const interval = setInterval(() => {
       if (currentIndex < message.content.length) {
         setDisplayedContent(message.content.slice(0, currentIndex + 1));
         currentIndex++;
       } else {
         setIsComplete(true);
-        clearInterval(streamInterval);
+        clearInterval(interval);
       }
-    }, 10); // Adjust speed here (lower = faster)
+    }, 10);
 
     return () => {
-      clearInterval(streamInterval);
       message.isStreaming = false;
+      return clearInterval(interval);
     };
   }, [message.content, message.isStreaming]);
 
@@ -46,12 +59,17 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
             : "bg-gray-100 text-gray-800"
         }`}
       >
-        <p className="text-sm whitespace-pre-wrap">
-          {displayedContent}
-          {!isComplete && message.type === "ai" && (
-            <span className="inline-block w-0.5 h-4 bg-gray-800 ml-1 animate-pulse"></span>
-          )}
-        </p>
+        {/* Markdown block */}
+        <div className="prose prose-sm max-w-none">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {normalizeForMarkdown(displayedContent) + (isComplete ? "" : " ▍")}
+          </ReactMarkdown>
+        </div>
+
+        {/* Streaming cursor */}
+        {/* {!isComplete && message.type === "ai" && (
+          <span className="inline-block w-0.5 h-4 bg-gray-800 ml-1 animate-pulse" />
+        )} */}
       </div>
     </div>
   );

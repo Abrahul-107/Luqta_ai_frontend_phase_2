@@ -40,7 +40,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           onChange={(e) => onInputChange(e.target.value)}
           onKeyPress={onKeyPress}
           placeholder="Ask luqta AI anything..."
-          className="flex-1 bg-transparent outline-none text-sm text-gray-800 placeholder-gray-500"
+          className="flex-1 bg-transparent outline-none text-sm text-gray-800 placeholder-gray-500 caret-black"
         />
         {/* PICKER POPUP */}
         {showPicker && (
