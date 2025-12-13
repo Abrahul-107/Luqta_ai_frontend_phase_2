@@ -20,7 +20,7 @@ interface AreaChartCardProps {
   color: string;
   accentColor: string;
   metrics: KeyMetrics | WhatIfSimulationMetrics | undefined;
-  prizeRate: string;
+  scenario?: string;
   isRecommended?: boolean;
 }
 
@@ -59,7 +59,7 @@ const AreaChartCard: React.FC<AreaChartCardProps> = ({
   color,
   accentColor,
   metrics,
-  prizeRate,
+  scenario,
   isRecommended = false,
 }) => {
   // Find peak for annotation
@@ -76,9 +76,7 @@ const AreaChartCard: React.FC<AreaChartCardProps> = ({
             isRecommended ? "text-green-600" : "text-yellow-600"
           }`}
         >
-          {isRecommended
-            ? `Increased prize by 80%+`
-            : `Prize rate ${prizeRate}`}
+          {isRecommended ? scenario || "" : <br />}
         </p>
       </div>
 
@@ -179,12 +177,14 @@ const AreaChartCard: React.FC<AreaChartCardProps> = ({
               {metrics?.joins.toLocaleString() || "N/A"}
             </span>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Engagement Score:</span>
-            <span className="text-lg font-bold" style={{ color: color }}>
-              {metrics?.engagement_score || (isRecommended ? 50 : 20)}%
-            </span>
-          </div>
+          {(metrics?.engagement_score || "") && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Engagement Score:</span>
+              <span className="text-lg font-bold" style={{ color: color }}>
+                {metrics?.engagement_score}%
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

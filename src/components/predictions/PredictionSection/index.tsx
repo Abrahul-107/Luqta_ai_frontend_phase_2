@@ -17,8 +17,17 @@ const PredictionsDashboard: React.FC<PredictionsDashboardProps> = ({
   // Extract data
   const currentMetrics =
     data?.engagement_prediction.predictive_engagement.summary.key_metrics;
-  const bestScenario =
-    data?.engagement_prediction.predictive_engagement.what_if_simulations[0];
+  const simulations =
+    data?.engagement_prediction.predictive_engagement.what_if_simulations || [];
+
+  const bestScenario = simulations.reduce(
+    (best, current) =>
+      current.predicted_metrics.expected_revenue >
+      best.predicted_metrics.expected_revenue
+        ? current
+        : best,
+    simulations[0]
+  );
 
   const { generateTimeSeriesData } = usePredictiveEngagementFormatter();
   const currentData = generateTimeSeriesData(

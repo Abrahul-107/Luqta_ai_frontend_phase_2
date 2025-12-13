@@ -1,9 +1,13 @@
-import type { KeyMetrics, WhatIfSimulation } from "../../../types";
+import type {
+  KeyMetrics,
+  TimeSeriesDataPoint,
+  WhatIfSimulation,
+} from "../../../types";
 import AreaChartCard from "./AreaChartCard";
 
 interface PredictionChartsGridProps {
-  currentData: any[];
-  predictedData: any[];
+  currentData: TimeSeriesDataPoint[];
+  predictedData: TimeSeriesDataPoint[];
   currentMetrics: KeyMetrics | undefined;
   bestScenario: WhatIfSimulation | undefined;
   loading?: boolean;
@@ -19,11 +23,8 @@ const PredictionChartsGrid: React.FC<PredictionChartsGridProps> = ({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {loading ? (
-        [1, 2].map(() => (
-          <div
-            className="space-y-4 flex gap-4 justify-between"
-            key={Math.random()}
-          >
+        [1, 2].map((_, idx) => (
+          <div className="space-y-4 flex gap-4 justify-between" key={idx}>
             <div className="h-130 w-210 bg-gray-200 rounded-xl"></div>
           </div>
         ))
@@ -36,7 +37,6 @@ const PredictionChartsGrid: React.FC<PredictionChartsGridProps> = ({
             color="#ef4444"
             accentColor="#dc2626"
             metrics={currentMetrics}
-            prizeRate="20%"
             isRecommended={false}
           />
 
@@ -47,7 +47,7 @@ const PredictionChartsGrid: React.FC<PredictionChartsGridProps> = ({
             color="#10b981"
             accentColor="#059669"
             metrics={bestScenario?.predicted_metrics}
-            prizeRate="24%"
+            scenario={bestScenario?.scenario}
             isRecommended={true}
           />
         </>
