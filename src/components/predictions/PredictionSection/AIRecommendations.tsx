@@ -28,7 +28,7 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
             ) : (
               <div
                 key={idx}
-                className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg"
+                className="flex items-start gap-3 p-4 border border-gray-200 bg-gray-100 rounded-xl"
               >
                 <div className="w-7 h-7 rounded-full bg-yellow-50 p-1 overflow-hidden">
                   <img

@@ -24,7 +24,7 @@ const PotentialRisks: React.FC<PotentialRisksProps> = ({ risks, loading }) => {
           ) : (
             <div
               key={idx}
-              className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg"
+              className="flex items-center gap-3 p-3 border border-gray-200 bg-red-50 rounded-xl"
             >
               <div className="w-12 h-12 rounded-full overflow-hidden">
                 <img
