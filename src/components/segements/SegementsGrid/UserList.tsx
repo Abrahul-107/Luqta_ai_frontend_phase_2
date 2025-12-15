@@ -2,13 +2,13 @@ import type { User } from "../../../types";
 import UserListItem from "./UserListItem";
 
 interface UserListProps {
-  users: User[];
+  users?: User[];
   loading?: boolean;
 }
 
 const UserList: React.FC<UserListProps> = ({ users, loading }) => (
   <ul className="space-y-2">
-    {(loading ? [1, 2, 3, 4] : users).map((user, idx) =>
+    {(loading ? [1, 2, 3, 4] : users || []).map((user, idx) =>
       loading ? (
         <div
           key={idx}
