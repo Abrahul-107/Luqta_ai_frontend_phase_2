@@ -11,10 +11,6 @@ const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => (
       {/* Sliding indicator */}
       <span
         className={`absolute top-1 bottom-1 rounded-full bg-white/20 backdrop-blur-md transition-all duration-300`}
-        style={{
-          left: activeTab === "segments" ? "4px" : " calc(50% + 4px)",
-          width: "calc(50% - 8px)",
-        }}
       ></span>
       <TabButton
         active={activeTab === "segments"}

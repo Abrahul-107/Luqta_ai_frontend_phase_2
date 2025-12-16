@@ -3,11 +3,12 @@ import type { ClientSegments, Segment, StatData } from "../types";
 const useClientSegmentFormatter = () => {
     const getStats = (clientSegments: ClientSegments | null) => {
         if (!clientSegments) return [];
-        const { 'One-time User': totalUniqueUsers } = clientSegments;
+        const { 'One-time User': totalUniqueUsers, 'High Performer': highPerformers } = clientSegments;
+        const totalSegments = Object.keys(clientSegments).length;
         const stats: StatData[] = [
             { icon: '👥', icon_url: 'src/assets/icons/group_add.svg', label: 'Total Unique Users', value: totalUniqueUsers?.length || 0 },
-            { icon: '📊', icon_url: 'src/assets/icons/arrow_outward_up.svg', label: 'Total Segments', value: '22' },
-            { icon: '💎', icon_url: 'src/assets/icons/workspace_premium.svg', label: 'High Value Users', value: '1824' },
+            { icon: '📊', icon_url: 'src/assets/icons/arrow_outward_up.svg', label: 'Total Segments', value: totalSegments },
+            { icon: '💎', icon_url: 'src/assets/icons/workspace_premium.svg', label: 'High Value Users', value: highPerformers?.length || 0 },
         ];
         return stats;
     }

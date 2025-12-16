@@ -30,7 +30,7 @@ const ScenarioCard: React.FC<ScenarioCardProps> = ({
   const chartData = [
     { name: "Views", value: metrics.views },
     { name: "Joins", value: metrics.joins },
-    { name: "Revenue", value: metrics.revenue },
+    // { name: "Revenue", value: metrics.revenue },
     { name: "Drop-off", value: metrics.dropoff },
   ];
 

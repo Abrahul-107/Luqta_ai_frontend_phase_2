@@ -14,7 +14,7 @@ const DetailedScenarioAnalysis: React.FC<DetailedScenarioAnalysisProps> = ({
   return (
     <div>
       <div className="flex items-center gap-2 mb-6">
-        <h2 className="text-white text-xl font-semibold text-gray-900">
+        <h2 className="text-xl font-semibold text-gray-900">
           Detailed Scenario Analysis
         </h2>
         <Info className="w-5 h-5 text-gray-400" />

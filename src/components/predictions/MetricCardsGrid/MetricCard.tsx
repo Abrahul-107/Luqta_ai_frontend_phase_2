@@ -17,7 +17,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
   loading,
 }) => (
   <Card>
-    <div className="h-30 flex flex-col justify-between">
+    <div className="h-40 flex flex-col justify-between">
       <div className="text-sm text-gray-600 mb-2 relative flex items-between justify-start gap-1">
         {label}
         {icon_url ? (

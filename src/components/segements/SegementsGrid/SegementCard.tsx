@@ -46,7 +46,7 @@ const SegmentCard: React.FC<SegmentCardProps> = ({
       gradient={gradient}
       loading={loading}
     />
-    <UserList users={users} loading={loading} />
+    <UserList users={users} loading={loading} gradient={gradient} />
   </div>
 );
 
