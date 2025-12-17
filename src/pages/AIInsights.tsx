@@ -1,10 +1,10 @@
 import Tabs from "../components/common/Tabs";
 import UserSegmentsTab from "../components/segements/UserSegementsTab";
 import PredictionsTab from "../components/predictions/PredictionsTab";
-import { useQueryTab } from "../hooks/useQueryTab";
+import { useState } from "react";
 
 const AIInsights: React.FC = () => {
-  const [activeTab, setActiveTab] = useQueryTab("segments");
+  const [activeTab, setActiveTab] = useState("segments");
 
   return (
     <>
