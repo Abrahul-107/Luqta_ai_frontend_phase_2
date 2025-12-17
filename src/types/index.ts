@@ -10,6 +10,7 @@ export interface StatData {
     icon: string;
     icon_url?: string;
     label: string;
+    translation_key?: string;
     value: number | string;
 }
 
@@ -23,7 +24,9 @@ export interface Segment {
     icon: string;
     icon_url?: string;
     title: string;
+    translation_title_key?: string;
     description: string;
+    translation_description_key?: string;
     percentage: number;
     gradient: string;
     users: User[];
@@ -60,6 +63,7 @@ export interface ChatMessage {
 export interface QuickAction {
     icon: string;
     label: string;
+    translation_key?: string;
 }
 
 export interface ClientSegments {

@@ -1,6 +1,7 @@
 import { Info } from "lucide-react";
 import type { WhatIfSimulation } from "../../../types";
 import ScenarioCard from "./ScenarioCard";
+import { useTranslation } from "react-i18next";
 
 interface DetailedScenarioAnalysisProps {
   what_if_simulations: WhatIfSimulation[];
@@ -11,11 +12,12 @@ const DetailedScenarioAnalysis: React.FC<DetailedScenarioAnalysisProps> = ({
   what_if_simulations,
   loading,
 }) => {
+  const { t } = useTranslation();
   return (
     <div>
       <div className="flex items-center gap-2 mb-6">
         <h2 className="text-xl font-semibold text-gray-900">
-          Detailed Scenario Analysis
+          {t("user_segments.detailed_scenario_analysis.title")}
         </h2>
         <Info className="w-5 h-5 text-gray-400" />
       </div>
