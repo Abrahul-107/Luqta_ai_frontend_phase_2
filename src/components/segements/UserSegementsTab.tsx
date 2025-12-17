@@ -7,8 +7,11 @@ import StatsGrid from "./StartGrid";
 import { useClientSegments } from "../../hooks/useClientSegments";
 import useClientSegmentFormatter from "../../hooks/useClientSegmentFormatter";
 import { useQueryClient } from "../../hooks/useQueryClient";
+import { useTranslation } from "react-i18next";
 
 const UserSegmentsTab: React.FC = () => {
+  const { t } = useTranslation();
+
   const { data, loading, error, fetchSegments } = useClientSegments();
   const { getStats, getSegmentDetails } = useClientSegmentFormatter();
   const { clientName } = useQueryClient({ client_name: "Luqta Admin" });
@@ -23,8 +26,8 @@ const UserSegmentsTab: React.FC = () => {
     <div>
       <div className="bg-white rounded-2xl p-5 mb-5">
         <SectionHeader
-          title="User Segments"
-          subtitle="User Insights & Predictions"
+          title={t("tabs.user_segments")}
+          subtitle={t("platform.subtitle")}
         />
         <StatsGrid
           stats={loading || error ? stats : getStats(data)}

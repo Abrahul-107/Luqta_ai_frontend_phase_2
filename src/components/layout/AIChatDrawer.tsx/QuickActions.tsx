@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { QuickAction } from "../../../types";
 
 interface QuickActionsProps {
@@ -11,6 +12,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({
   showActions,
   onActionClick,
 }) => {
+  const { t } = useTranslation();
   return (
     <div
       className={
@@ -23,10 +25,16 @@ const QuickActions: React.FC<QuickActionsProps> = ({
           <button
             key={idx}
             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer rounded-lg transition flex items-center gap-2"
-            onClick={() => onActionClick(action.label)}
+            onClick={() =>
+              onActionClick(
+                t(`chat_room.${action.translation_key}` || action.label)
+              )
+            }
           >
             <span>{action.icon}</span>
-            <span>{action.label}</span>
+            <span>
+              {t(`chat_room.${action.translation_key}` || action.label)}
+            </span>
           </button>
         ))}
       </div>

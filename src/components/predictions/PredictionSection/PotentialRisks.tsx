@@ -1,15 +1,22 @@
+import { useTranslation } from "react-i18next";
+
 interface PotentialRisksProps {
   risks: string[];
   loading?: boolean;
 }
 const PotentialRisks: React.FC<PotentialRisksProps> = ({ risks, loading }) => {
+  const { t } = useTranslation();
   if (!loading && risks.length === 0) {
-    return <p className="text-gray-500">No potential risks identified.</p>;
+    return (
+      <p className="text-gray-500">
+        {t("user_segments.no_potential_risks_identified")}
+      </p>
+    );
   }
   return (
     <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
       <h3 className="text-xl font-semibold text-gray-900 mb-4">
-        Potential Risks
+        {t("user_segments.potential_risks")}
       </h3>
       <div className="space-y-3">
         {(loading ? [1, 2, 3, 4, 5] : risks).map((risk, idx) =>

@@ -6,9 +6,9 @@ const useClientSegmentFormatter = () => {
         const { 'One-time User': totalUniqueUsers, 'High Performer': highPerformers } = clientSegments;
         const totalSegments = Object.keys(clientSegments).length;
         const stats: StatData[] = [
-            { icon: '👥', icon_url: 'src/assets/icons/group_add.svg', label: 'Total Unique Users', value: totalUniqueUsers?.length || 0 },
-            { icon: '📊', icon_url: 'src/assets/icons/arrow_outward_up.svg', label: 'Total Segments', value: totalSegments },
-            { icon: '💎', icon_url: 'src/assets/icons/workspace_premium.svg', label: 'High Value Users', value: highPerformers?.length || 0 },
+            { icon: '👥', icon_url: 'src/assets/icons/group_add.svg', label: 'Total Unique Users', value: totalUniqueUsers?.length || 0, translation_key: 'user_segments.segment_metrics.total_unique_users' },
+            { icon: '📊', icon_url: 'src/assets/icons/arrow_outward_up.svg', label: 'Total Segments', value: totalSegments, translation_key: 'user_segments.segment_metrics.total_segments' },
+            { icon: '💎', icon_url: 'src/assets/icons/workspace_premium.svg', label: 'High Value Users', value: highPerformers?.length || 0, translation_key: 'user_segments.segment_metrics.high_value_users' },
         ];
         return stats;
     }
@@ -29,6 +29,8 @@ const useClientSegmentFormatter = () => {
                 icon_url: 'src/assets/images/super_loyal_user.png',
                 title: 'Super Loyal User',
                 description: 'Top tier users with exceptional loyalty and engagement',
+                translation_title_key: 'user_segments.segment_cards.super_loyal_user.title',
+                translation_description_key: 'user_segments.segment_cards.super_loyal_user.description',
                 percentage: +((superLoyalUsers?.length || 0) / totalUsers * 100).toFixed(2),
                 gradient: 'bg-gradient-to-r from-orange-500 to-orange-400',
                 users: superLoyalUsers,
@@ -38,6 +40,8 @@ const useClientSegmentFormatter = () => {
                 icon_url: 'src/assets/images/high_performer.png',
                 title: 'High Performer',
                 description: 'Users who consistently perform well in contests',
+                translation_title_key: 'user_segments.segment_cards.high_performer.title',
+                translation_description_key: 'user_segments.segment_cards.high_performer.description',
                 percentage: +((highPerformers?.length || 0) / totalUsers * 100).toFixed(2),
                 gradient: 'bg-gradient-to-r from-purple-500 to-purple-400',
                 users: highPerformers,

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { predictions } from "../../data/predictionsData";
 import { usePredictiveEngagement } from "../../hooks/usePredictiveEngagement";
 import usePredictiveEngagementFormatter from "../../hooks/usePredictiveEngagementFormatter";
@@ -8,6 +9,7 @@ import PredictionSection from "./PredictionSection";
 import { useQueryClient } from "../../hooks/useQueryClient";
 
 const PredictionsTab: React.FC = () => {
+  const { t } = useTranslation();
   const { data, loading, error, fetchPrediction } = usePredictiveEngagement();
   const { getPredictions } = usePredictiveEngagementFormatter();
   const { clientName, clientId } = useQueryClient({
@@ -24,8 +26,8 @@ const PredictionsTab: React.FC = () => {
     <div>
       <div className="bg-white rounded-2xl p-5 mb-5">
         <SectionHeader
-          title="User Segments"
-          subtitle="User Insights & Predictions"
+          title={t("tabs.user_segments")}
+          subtitle={t("platform.subtitle")}
         />
         <MetricCardsGrid
           metrics={loading || error ? predictions : getPredictions(data)}

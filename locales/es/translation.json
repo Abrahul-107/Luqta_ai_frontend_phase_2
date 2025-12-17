@@ -1,0 +1,92 @@
+{
+    "platform": {
+        "title": "Plataforma de Analítica Luqta AI",
+        "subtitle": "Información y predicciones de usuarios",
+        "powered_by": "Impulsado por Luqta AI"
+    },
+    "tabs": {
+        "user_segments": "Segmentos de usuarios",
+        "predictions": "Predicciones ✨"
+    },
+    "user_segments": {
+        "description": "Información y predicciones de usuarios",
+        "segment_metrics": {
+            "total_unique_users": "Total de usuarios únicos",
+            "total_segments": "Total de segmentos",
+            "high_value_users": "Usuarios de alto valor"
+        },
+        "metrics": {
+            "views": "Vistas",
+            "revenue": "Ingresos",
+            "joins": "Participaciones",
+            "engagement": "Interacción",
+            "drop_off_rate": "Tasa de abandono",
+            "drop_off": "Abandono"
+        },
+        "segment_cards": {
+            "super_loyal_user": {
+                "title": "Usuario súper leal",
+                "description": "Usuarios de primer nivel con lealtad y compromiso excepcionales",
+                "segment_share": "Participación del segmento",
+                "badge": "Top"
+            },
+            "high_performer": {
+                "title": "Alto rendimiento",
+                "description": "Usuarios que se desempeñan de manera constante en los concursos",
+                "segment_share": "Participación del segmento",
+                "rank_labels": {
+                    "first": "1.º",
+                    "second": "2.º",
+                    "third": "3.º",
+                    "fourth": "4.º"
+                },
+                "show_all": "Mostrar todo ({{count}})",
+                "show_more": "Mostrar más (+{{count}})",
+                "show_less": "Mostrar menos"
+            }
+        },
+        "detailed_scenario_analysis": {
+            "title": "Análisis detallado de escenarios",
+            "engagement_score": "Puntuación de interacción",
+            "confidence_score": {
+                "high": "Alta confianza",
+                "medium": "Confianza media",
+                "low": "Baja confianza"
+            }
+        },
+        "potential_risks": "Riesgos potenciales",
+        "no_potential_risks_identified": "No se identificaron riesgos potenciales.",
+        "ai_recommendations": "Recomendaciones de IA",
+        "no_recommendations_available": "No hay recomendaciones disponibles."
+    },
+    "current_scenario": {
+        "title": "Ahora",
+        "description": "Escenario actual",
+        "tooltip": "Participaciones"
+    },
+    "recommended_scenario": {
+        "title": "¡En los próximos 10 días!",
+        "description": "Mejor escenario recomendado",
+        "recommendation": "Mejorar el formato del concurso",
+        "tooltip": "Participaciones"
+    },
+    "chat_room": {
+        "header": {
+            "greeting": "Hola {{name}} 👋",
+            "subtitle": "¿Cómo puedo ayudarte hoy?"
+        },
+        "quick_actions": {
+            "how_to_increase_contest_engagement": "¿Cómo podemos aumentar la interacción del concurso?",
+            "features_to_improve_roi": "¿Qué funciones deberían añadirse para mejorar el ROI de la plataforma?",
+            "personalized_nudges_for_reengagement": "¿Qué recordatorios personalizados deberían enviarse para aumentar la re-interacción?",
+            "clients_likely_to_churn": "¿Qué clientes probablemente abandonen en los próximos 7 días y por qué?",
+            "design_ab_test_for_completion_rate": "Diseñar una prueba A/B para aumentar la tasa de finalización del concurso"
+        },
+        "input": {
+            "placeholder": "Pregunta cualquier cosa a Luqta AI..."
+        },
+        "footer": {
+            "disclaimer": "Luqta AI puede cometer errores. Verifique las respuestas."
+        }
+    }
+}

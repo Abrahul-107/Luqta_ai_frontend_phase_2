@@ -4,6 +4,7 @@ import {
   PanelTopClose,
   PanelTopOpen,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface ChatHeaderProps {
   name?: string;
@@ -22,6 +23,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   onToggleShowActions,
   onToggleMinimize,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="bg-gray-100 p-6 relative text-black text-center rounded-t-lg">
       <div className="flex items-center mt-10 justify-center mb-4">
@@ -68,9 +70,11 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
           </button>
         )}
       </div>
-      <h2 className="text-xl font-bold mb-1">Hello {name} 👋</h2>
+      <h2 className="text-xl font-bold mb-1">
+        {t("chat_room.header.greeting", { name })}
+      </h2>
       <p className="text-sm text-gray-500 text-opacity-90">
-        How can I help you today?
+        {t("chat_room.header.subtitle")}
       </p>
     </div>
   );

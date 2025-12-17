@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ResponsiveContainer,
   XAxis,
@@ -27,11 +28,12 @@ const ScenarioCard: React.FC<ScenarioCardProps> = ({
   notes,
   confidence,
 }) => {
+  const { t, i18n } = useTranslation();
   const chartData = [
-    { name: "Views", value: metrics.views },
-    { name: "Joins", value: metrics.joins },
-    // { name: "Revenue", value: metrics.revenue },
-    { name: "Drop-off", value: metrics.dropoff },
+    { name: t("user_segments.metrics.views"), value: metrics.views },
+    { name: t("user_segments.metrics.joins"), value: metrics.joins },
+    // { name: t("user_segments.metrics.revenue"), value: metrics.revenue },
+    { name: t("user_segments.metrics.drop_off"), value: metrics.dropoff },
   ];
 
   const bg =
@@ -46,7 +48,9 @@ const ScenarioCard: React.FC<ScenarioCardProps> = ({
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-semibold text-gray-900">{scenario}</h3>
         <span className={`px-3 py-1 ${bg} text-xs font-medium rounded-full`}>
-          {confidence.charAt(0).toUpperCase() + confidence.slice(1)} Confidence
+          {t(
+            `user_segments.detailed_scenario_analysis.confidence_score.${confidence}`
+          )}
         </span>
       </div>
 
@@ -75,9 +79,11 @@ const ScenarioCard: React.FC<ScenarioCardProps> = ({
 
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Engagement Score</span>
+          <span className="text-gray-600">
+            {t("user_segments.detailed_scenario_analysis.engagement_score")}
+          </span>
           <span className="font-semibold text-gray-900">
-            {engagementScore}%
+            {Intl.NumberFormat(i18n.language).format(engagementScore)}%
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">

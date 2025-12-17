@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { User } from "../../../types";
 import UserListItem from "./UserListItem";
+import { useTranslation } from "react-i18next";
 
 interface UserListProps {
   users?: User[];
@@ -12,6 +13,7 @@ const UserList: React.FC<UserListProps> = ({ users, loading, gradient }) => {
   const initialUsersCount = 4;
   const increamentCountNo = 5;
   const [slicedUsers, setSlicedUsers] = useState(initialUsersCount);
+  const { t } = useTranslation();
   return (
     <ul className="space-y-2">
       {(loading ? [1, 2, 3, 4] : users?.slice(0, slicedUsers) || []).map(
@@ -41,8 +43,11 @@ const UserList: React.FC<UserListProps> = ({ users, loading, gradient }) => {
               )
             }
           >
-            Show{" "}
-            {users.length > slicedUsers ? "all " + `(${users.length})` : "less"}
+            {users.length > slicedUsers
+              ? t("user_segments.segment_cards.high_performer.show_all", {
+                  count: users.length,
+                })
+              : t("user_segments.segment_cards.high_performer.show_less")}
           </span>
           {users.length > slicedUsers && (
             <span
@@ -53,7 +58,9 @@ const UserList: React.FC<UserListProps> = ({ users, loading, gradient }) => {
                 )
               }
             >
-              Show more (+{increamentCountNo})
+              {t("user_segments.segment_cards.high_performer.show_more", {
+                count: increamentCountNo,
+              })}
             </span>
           )}
         </div>

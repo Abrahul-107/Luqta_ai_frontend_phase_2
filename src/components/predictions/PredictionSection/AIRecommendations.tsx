@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface AIRecommendationsProps {
   recommendations: string[];
   loading?: boolean;
@@ -6,13 +8,18 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
   recommendations,
   loading,
 }) => {
+  const { t } = useTranslation();
   if (!loading && recommendations.length === 0) {
-    return <p className="text-gray-500">No recommendations available.</p>;
+    return (
+      <p className="text-gray-500">
+        {t("user_segments.no_recommendations_available")}
+      </p>
+    );
   }
   return (
     <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
       <h3 className="text-xl font-semibold text-gray-900 mb-4">
-        AI Recommendations
+        {t("user_segments.ai_recommendations")}
       </h3>
       <div className="space-y-3">
         {(loading ? [1, 2, 3, 4, 5] : recommendations).map(
